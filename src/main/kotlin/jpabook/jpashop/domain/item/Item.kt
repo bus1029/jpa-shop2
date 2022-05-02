@@ -21,7 +21,7 @@ abstract class Item {
   var id: Long? = null
 
   var name: String = ""
-  var int: Int = 0
+  var price: Int = 0
   var stockQuantity: Int = 0
 
   @ManyToMany(mappedBy = "items")
