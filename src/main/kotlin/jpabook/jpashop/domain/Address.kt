@@ -4,9 +4,9 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class Address protected constructor() {
-  final var city = ""
-  final var street = ""
-  final var zipcode = ""
+  var city = ""
+  var street = ""
+  var zipcode = ""
 
   constructor(city: String, street: String, zipcode: String): this() {
     this.city = city
