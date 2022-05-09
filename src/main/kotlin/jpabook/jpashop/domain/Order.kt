@@ -11,25 +11,32 @@ class Order protected constructor() {
   @Column(name = "order_id")
   var id: Long? = null
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
-  private var member: Member? = null
+  var member: Member? = null
+    set(value) {
+      field = value
+      field?.orders?.add(this)
+    }
 
   @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL])
   private val orderItems = mutableListOf<OrderItem>()
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
   @JoinColumn(name = "delivery_id")
-  private var delivery: Delivery? = null
+  var delivery: Delivery? = null
+    set(delivery) {
+      field = delivery
+      field?.order = this
+    }
 
-  private var orderDate: LocalDateTime? = null
+  var orderDate: LocalDateTime? = null
 
   @Enumerated(EnumType.STRING)
   var status: OrderStatus? = null
 
-  fun setMember(member: Member) {
-    this.member = member
-    member.orders.add(this)
+  fun getOrderItems(): MutableList<OrderItem> {
+    return this.orderItems
   }
 
   fun addOrderItem(orderItem: OrderItem) {
@@ -37,16 +44,11 @@ class Order protected constructor() {
     orderItem.order = this
   }
 
-  fun setDelivery(delivery: Delivery) {
-    this.delivery = delivery
-    delivery.order = this
-  }
-
   companion object {
     fun createOrder(member: Member, delivery: Delivery, vararg orderItems: OrderItem): Order {
       val order = Order()
-      order.setMember(member)
-      order.setDelivery(delivery)
+      order.member = member
+      order.delivery = delivery
       for (orderItem in orderItems) {
         order.addOrderItem(orderItem)
       }
