@@ -2,12 +2,7 @@ package jpabook.jpashop.api
 
 import jpabook.jpashop.domain.Member
 import jpabook.jpashop.service.MemberService
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 import javax.validation.constraints.NotEmpty
 
@@ -15,6 +10,24 @@ import javax.validation.constraints.NotEmpty
 class MemberApiController(
   private val memberService: MemberService
 ) {
+  @GetMapping("/api/v1/members")
+  fun membersV1(): List<Member> {
+    return memberService.findMembers()
+  }
+
+  @GetMapping("/api/v2/members")
+  fun membersV2(): Result<List<MemberDto>> {
+    val findMembers = memberService.findMembers()
+    val members = findMembers.map { member -> MemberDto(member.name) }.toList()
+    return Result(members)
+  }
+
+  class Result<T>(val data: T) {
+  }
+
+  class MemberDto(val name: String) {
+  }
+
   @PostMapping("/api/v1/members")
   fun saveMemberV1(@RequestBody @Valid member: Member): CreateMemberResponse {
     val id = memberService.join(member)
