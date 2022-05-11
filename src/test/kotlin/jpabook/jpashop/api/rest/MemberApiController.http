@@ -1,0 +1,15 @@
+### Entity 를 통한 POST Mapping
+POST http://localhost:8080/api/v1/members
+Content-Type: application/json
+
+{
+  "name": "hello4"
+}
+
+### DTO를 통한 POST Mapping
+POST http://localhost:8080/api/v2/members
+Content-Type: application/json
+
+{
+  "name": "hello3"
+}
