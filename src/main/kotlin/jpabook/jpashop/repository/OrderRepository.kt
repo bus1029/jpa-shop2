@@ -4,8 +4,6 @@ import jpabook.jpashop.domain.Order
 import org.springframework.stereotype.Repository
 import org.springframework.util.StringUtils
 import javax.persistence.EntityManager
-import javax.persistence.criteria.JoinType
-import javax.persistence.criteria.Predicate
 
 @Repository
 class OrderRepository(
@@ -61,7 +59,7 @@ class OrderRepository(
     return query.resultList
   }
 
-  fun findAllWithMemberDelivery(): MutableList<Order> {
+  fun findAllWithMemberDelivery(): List<Order> {
     return em.createQuery(
       "select o " +
               "from Order o " +

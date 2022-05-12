@@ -3,3 +3,9 @@ GET http://localhost:8080/api/v1/simple-orders
 
 ### DTO 반환
 GET http://localhost:8080/api/v2/simple-orders
+
+### DTO 반환, Fetch Join 사용
+GET http://localhost:8080/api/v3/simple-orders
+
+### DTO 로 바로 반환
+GET http://localhost:8080/api/v4/simple-orders

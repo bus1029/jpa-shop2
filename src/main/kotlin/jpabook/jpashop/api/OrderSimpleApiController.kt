@@ -5,6 +5,8 @@ import jpabook.jpashop.domain.Order
 import jpabook.jpashop.domain.OrderStatus
 import jpabook.jpashop.repository.OrderRepository
 import jpabook.jpashop.repository.OrderSearch
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
@@ -18,6 +20,7 @@ import java.time.LocalDateTime
 @RestController
 class OrderSimpleApiController(
   private val orderRepository: OrderRepository,
+  private val orderSimpleQueryRepository: OrderSimpleQueryRepository
 ) {
 
   @GetMapping("/api/v1/simple-orders")
@@ -38,7 +41,20 @@ class OrderSimpleApiController(
       .toList()
   }
 
-  class SimpleOrderDto(){
+  @GetMapping("/api/v3/simple-orders")
+  fun orderV3(): List<SimpleOrderDto> {
+    val orders = orderRepository.findAllWithMemberDelivery()
+    return orders
+      .map { o -> SimpleOrderDto(o) }
+      .toList()
+  }
+
+  @GetMapping("/api/v4/simple-orders")
+  fun orderV4(): List<OrderSimpleQueryDto> {
+    return orderSimpleQueryRepository.findOrderDtos()
+  }
+
+  class SimpleOrderDto() {
     var orderId: Long? = null
     var name: String = ""
     var orderDate: LocalDateTime? = null
