@@ -20,6 +20,7 @@ class Member {
   @Embedded
   var address: Address? = null
 
+  // 양방향 연관관계의 경우 한 쪽은 JsonIgnore 를 명시해줘야 함
   @JsonIgnore
   @OneToMany(mappedBy = "member")
   val orders = mutableListOf<Order>()
