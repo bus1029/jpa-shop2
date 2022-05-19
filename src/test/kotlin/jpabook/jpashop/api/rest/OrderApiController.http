@@ -1,0 +1,5 @@
+### Entity 직접 노출
+GET http://localhost:8080/api/v1/orders
+
+### DTO 노출
+GET http://localhost:8080/api/v2/orders
