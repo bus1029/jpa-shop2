@@ -6,3 +6,6 @@ GET http://localhost:8080/api/v2/orders
 
 ### Fetch Join 으로 성능 최적화
 GET http://localhost:8080/api/v3/orders
+
+### Fetch Join + Batch Size 를 이용한 페이징 조회
+GET http://localhost:8080/api/v3.1/orders?offset=0&limit=100

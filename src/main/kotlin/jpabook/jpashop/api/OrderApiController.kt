@@ -7,6 +7,7 @@ import jpabook.jpashop.domain.OrderStatus
 import jpabook.jpashop.repository.OrderRepository
 import jpabook.jpashop.repository.OrderSearch
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
 
@@ -38,6 +39,15 @@ class OrderApiController(
   @GetMapping("/api/v3/orders")
   fun ordersV3(): List<OrderDto> {
     val orders = orderRepository.findAllWithItem()
+    return orders
+      .map {o -> OrderDto(o)}
+      .toList()
+  }
+
+  @GetMapping("/api/v3.1/orders")
+  fun ordersV3Page(@RequestParam(value = "offset", defaultValue = "0") offset: Int,
+                    @RequestParam(value = "limit", defaultValue = "100") limit: Int): List<OrderDto> {
+    val orders = orderRepository.findAllWithMemberDelivery(offset, limit)
     return orders
       .map {o -> OrderDto(o)}
       .toList()
