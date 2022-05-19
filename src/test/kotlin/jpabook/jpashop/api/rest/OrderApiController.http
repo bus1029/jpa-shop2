@@ -3,3 +3,6 @@ GET http://localhost:8080/api/v1/orders
 
 ### DTO 노출
 GET http://localhost:8080/api/v2/orders
+
+### Fetch Join 으로 성능 최적화
+GET http://localhost:8080/api/v3/orders

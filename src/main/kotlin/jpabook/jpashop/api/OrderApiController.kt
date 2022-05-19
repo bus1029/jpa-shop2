@@ -35,6 +35,14 @@ class OrderApiController(
       .toList()
   }
 
+  @GetMapping("/api/v3/orders")
+  fun ordersV3(): List<OrderDto> {
+    val orders = orderRepository.findAllWithItem()
+    return orders
+      .map {o -> OrderDto(o)}
+      .toList()
+  }
+
   class OrderDto() {
     var orderId: Long? = null
     var name: String = ""
