@@ -18,7 +18,7 @@ class OrderQueryRepository(
 
     // 루프를 돌면서 컬렉션 추가 (추가 쿼리 실행)
     result.forEach {
-      val orderItems = findOrderItems(it.orderId)
+      val orderItems = findOrderItems(it.orderId!!)
       it.orderItems = orderItems
     }
     return result
@@ -63,13 +63,13 @@ class OrderQueryRepository(
     return result
   }
 
-  private fun toOrderIds(result: List<OrderQueryDto>): List<Long> {
+  private fun toOrderIds(result: List<OrderQueryDto>): List<Long?> {
     return result.map {
       it.orderId
     }.toList()
   }
 
-  private fun findOrderItemMap(orderIds: List<Long>): Map<Long?, List<OrderItemQueryDto>> {
+  private fun findOrderItemMap(orderIds: List<Long?>): Map<Long?, List<OrderItemQueryDto>> {
     val orderItems = em.createQuery(
       "select new jpabook.jpashop.repository.order.query.OrderItemQueryDto(oi.order.id, i.name, oi.orderPrice, oi.count) " +
               "from OrderItem oi " +
@@ -80,7 +80,7 @@ class OrderQueryRepository(
     return orderItems.groupBy { it.orderId }
   }
 
-  fun findAllByDtoFlat(): List<OrderFlatDto> {
+  fun findAllByDtoFlat(): MutableList<OrderFlatDto> {
     return em.createQuery(
       "select new jpabook.jpashop.repository.order.query.OrderFlatDto(o.id, m.name, o.orderDate, o.status, d.address, i.name, oi.orderPrice, oi.count) " +
               "from Order o " +
