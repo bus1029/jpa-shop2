@@ -16,4 +16,19 @@ class OrderQueryDto(
   constructor(orderId: Long?, name: String, orderDate: LocalDateTime?, orderStatus: OrderStatus?, address: Address?, orderItems: List<OrderItemQueryDto>?) : this(orderId, name, orderDate, orderStatus, address) {
     this.orderItems = orderItems
   }
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as OrderQueryDto
+
+    if (orderId != other.orderId) return false
+
+    return true
+  }
+
+  override fun hashCode(): Int {
+    return orderId?.hashCode() ?: 0
+  }
 }
